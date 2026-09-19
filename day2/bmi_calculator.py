@@ -1,86 +1,53 @@
-def calculate_bmi(weight: float, height: float) -> float:
-    """
-    Calculate the Body Mass Index (BMI).
-
-    Formula:
-        BMI = weight / (height^2)
-
-    Parameters:
-        weight (float): Weight in kilograms
-        height (float): Height in meters
-
-    Returns:
-        float: The calculated BMI value
-    """
-    return weight / height**2
+def calculate_bmi(weight, height):
+    """Return the BMI rounded to two decimals (weight in kg, height in m)."""
+    return round(weight / height**2, 2)
 
 
-def get_bmi_category(bmi: float) -> str:
-    """
-    Determine the BMI category based on the calculated value.
-
-    Categories:
-        - Underweight: BMI < 18.5
-        - Normal weight: 18.5 <= BMI <= 24.9
-        - Overweight: 25 <= BMI <= 29.9
-        - Obesity: BMI >= 30
-
-    Parameters:
-        bmi (float): The BMI value
-
-    Returns:
-        str: The health category as a string
-    """
+def get_bmi_category(bmi):
+    """Return the health category for a BMI value."""
     if bmi < 18.5:
         return "Underweight"
-    elif 18.5 <= bmi <= 24.9:
+    elif bmi < 25:
         return "Normal weight"
-    elif 25 <= bmi <= 29.9:
+    elif bmi < 30:
         return "Overweight"
     else:
         return "Obesity"
 
 
 def cli():
-    """
-    Command Line Interface (CLI) for the BMI Calculator.
-
-    - Greets the user with a header.
-    - Continuously prompts for weight and height until valid inputs are given.
-    - Ensures inputs are numeric and greater than zero.
-    - Displays the BMI rounded to two decimal places.
-    - Also shows the corresponding health category.
-    """
-    print(f"{'#'*10} BMI Calculator {'#'*10}")
+    print("########## BMI Calculator ##########")
 
     while True:
+        weight_unit = input("Weight unit ('kg' or 'lb'): ").lower()
+        height_unit = input("Height unit ('m' or 'in'): ").lower()
+
+        if weight_unit not in ("kg", "lb") or height_unit not in ("m", "in"):
+            print("Invalid unit. Please try again.")
+            continue
+
         try:
-            # Ask the user for weight and height
-            weight = float(input("Enter the weight in kilograms: "))
-            height = float(input("Enter the height in meters: "))
+            weight = float(input("Enter your weight: "))
+            height = float(input("Enter your height: "))
         except ValueError:
-            # Handle non-numeric input
-            print("Weight/height must be numbers. Please try again.")
+            print("Weight and height must be numbers. Please try again.")
             continue
 
-        # Validate positive values
         if weight <= 0 or height <= 0:
-            print("Weight/height must be larger than zero. Please try again.")
+            print("Weight and height must be larger than zero. Please try again.")
             continue
 
-        # Perform BMI calculation
-        bmi = calculate_bmi(weight, height)
-        category = get_bmi_category(bmi)
+        # Convert to kilograms and meters if needed
+        if weight_unit == "lb":
+            weight = weight / 2.20462
+        if height_unit == "in":
+            height = height / 39.3701
 
-        # Display result formatted to 2 decimal places with category
-        print(f"Your BMI is {bmi:.2f}")
-        print(f"Category: {category}")
+        bmi = calculate_bmi(weight, height)
+        print(f"Your BMI is {bmi}")
+        print(f"Category: {get_bmi_category(bmi)}")
         break
 
 
 if __name__ == "__main__":
-    """
-    Entry point of the program.
-    When the script is run directly, start the CLI.
-    """
     cli()
