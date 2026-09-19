@@ -32,7 +32,7 @@ def show_guests_cli():
     else:
         print("=== Current Guests ==")
         for index, guest in enumerate(guests, 1):
-            print(index, guest)
+            print(f"{index}. {guest}")
 
 def add_guest_cli():
     """
