@@ -109,7 +109,7 @@ def calculate_data(climate_data: list[dict]) -> dict:
         temperatures_sum += temp
 
 
-    classification["average_temperature"] = temperatures_sum / classification["valid_observations"]
+    classification["average_temperature"] = round(temperatures_sum / classification["valid_observations"], 2)
 
     return classification
 
@@ -120,8 +120,7 @@ def display(climate_data: list[dict]) -> None:
             continue
         print("#"*5)
         for key, value in city.items():
-
-            print(f"{key}: {value}")
+            print(f"{key}: {value}{'°C' if key == 'Temperature' else ''}")
             if key == "Temperature":
                 classification = classify_temperature(value)
         print(f"Classification: {classification}")
