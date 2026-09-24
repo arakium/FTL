@@ -70,9 +70,9 @@ climate_data = [
 def classify_temperature(temperature: int) -> str:
     if temperature >= 40:
         return "Extreme Heat"
-    elif 35 <= temperature < 40:
+    elif temperature >= 35:
         return "High Heat"
-    elif 30 <= temperature < 35:
+    elif temperature >= 30:
         return "Moderate Heat"
     else:
         return "Normal" 
